@@ -13,8 +13,11 @@
         @csrf
         @method('PUT')
 
-        <button type="submit"
-            class="{{ $user->double_auth ? 'bg-red-600 text-white' : 'bg-white text-gray-900' }} px-4 py-1.5 rounded-lg">{{ $user->double_auth ? 'Disable' : 'Enable' }}</button>
+        @if ($user->double_auth)
+            <x-primary-button>{{ __('Enable') }}</x-primary-button>
+        @else
+            <x-danger-button>{{ __('Disable') }}</x-danger-button>
+        @endif
     </form>
 
     {{-- <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
