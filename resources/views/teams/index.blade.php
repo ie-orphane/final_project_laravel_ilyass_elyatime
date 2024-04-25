@@ -22,17 +22,15 @@
     </x-slot>
 
     <div class="sm:px-6 lg:px-8 py-4 text-gray-900 dark:text-gray-100 flex h-fit flex-wrap gap-4">
-        {{-- @for ($i = 0; $i < 7; $i++) --}}
         @forelse (Auth::user()->teams as $team)
-            <a
-            href="{{ route('teams.show', $team) }}"
-                class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg px-4 py-5 flex-1 sm:flex-[calc(calc(100%-calc(1rem*3))/4)] sm:flex-grow-0 flex flex-col gap-2">
+            <a href="{{ route('teams.show', $team) }}"
+                class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg px-4 py-5 flex-[100%] flex-grow-0 sm:flex-grow-0 md:flex-grow-0 lg:flex-grow-0 sm:flex-[calc(calc(100%-calc(1rem))/2)] md:flex-[calc(calc(100%-calc(1rem*2))/3)] lg:flex-[calc(calc(100%-calc(1rem*3))/4)] flex flex-col gap-2">
                 <img class="w-full h-full" src="{{ asset($team->image) }}" alt="team background">
 
                 <div class="flex flex-col gap-2 mt-4 text-center">
                     <h5 class="leading-none font-medium text-xl">{{ $team->name }}</h5>
                     <p class="leading-none text-sm font-light opacity-75">
-                        {{ $team->members->count() + 1 }} Member{{ $team->members->count() > 1 ? 's' : '' }}
+                        {{ $team->members->count() }} Member{{ $team->members->count() > 1 ? 's' : '' }}
                     </p>
                     <h5 class="leading-none font-medium text-xs opacity-75">Created by
                         {{ $team->owner->id == Auth::id() ? 'you' : $team->owner->name }}</h5>
@@ -41,6 +39,5 @@
         @empty
             <div>No Teams avaiblable</div>
         @endforelse
-        {{-- @endfor --}}
     </div>
 </x-app-layout>

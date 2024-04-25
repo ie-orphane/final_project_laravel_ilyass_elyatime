@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TeamController extends Controller
@@ -33,12 +34,13 @@ class TeamController extends Controller
             "description" => "required|string",
         ]);
 
-        Team::create([
+        $team = Team::create([
             'user_id' => $request->user()->id,
             "name" => $request->name,
             "description" => $request->description,
             "image" => "images/team-bg-" . rand(1, 6) . ".jpg"
         ]);
+        $team->members()->attach($request->user());
 
         return back();
     }
@@ -48,8 +50,7 @@ class TeamController extends Controller
      */
     public function show(Team $team)
     {
-        // dd($team);
-        return view('teams.index', compact('team'));
+        return view('teams.show', compact('team'));
     }
 
     /**
@@ -74,5 +75,27 @@ class TeamController extends Controller
     public function destroy(Team $team)
     {
         //
+    }
+
+    public function invite(Request $request, Team $team)
+    {
+        $request->validate([
+            'email' => "required",
+        ]);
+
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->with('error', 'user with email ' . $request->email . ' not found!');
+        }
+
+        $members = $team->members->map(fn($member) => $member->id)->toArray();
+        if (in_array($user->id, $members)) {
+            return back()->with('error', $user->name . ' already here!');
+        }
+
+        $team->members()->attach($user);
+        return back()->with('success', $user->name . ' invited to ' . $team->name);
     }
 }

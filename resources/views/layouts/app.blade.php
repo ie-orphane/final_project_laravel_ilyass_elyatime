@@ -24,19 +24,19 @@
         <!-- Page Content -->
         <main class="w-full flex flex-col" x-data="{ open: false }">
             <div
-                class="flex justify-between bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 w-full py-4 px-6">
+                class="flex justify-between items-center bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 w-full py-4 px-6">
 
                 <!-- Page Heading -->
                 @if (isset($header))
                     {{ $header }}
                 @endif
 
-                <div class="hidden sm:flex {{ isset($header) ? '' : 'sm:ml-auto' }}">
+                <div class="hidden sm:flex sm:self-end {{ isset($header) ? '' : 'sm:ml-auto' }}">
                     <!-- Settings Dropdown -->
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button
-                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                class="inline-flex items-center px-3 ml-7 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                                 <div>{{ Auth::user()->name }}</div>
 
                                 <div class="ms-1">

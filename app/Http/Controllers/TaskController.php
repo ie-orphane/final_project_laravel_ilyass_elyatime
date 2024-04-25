@@ -116,4 +116,24 @@ class TaskController extends Controller
     {
         //
     }
+
+    public function all(Request $request) {
+        $backgroundColors = [
+            'to do' => '#ef4444',
+            'in progress' => '#d97706',
+            'done' => '#10b981',
+        ];
+
+        $tasks = [];
+        foreach ($request->user()->tasks as $task) {
+            $tasks[] = [
+                ...$task->toArray(),
+                "backgroundColor" => $backgroundColors[$task->status],
+            ];
+        }
+
+        return response()->json([
+            "events" => $tasks
+        ]);
+    }
 }

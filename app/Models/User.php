@@ -53,8 +53,8 @@ class User extends Authenticatable
         return $this->morphMany(Task::class, 'taskable');
     }
 
-    public function teams(): Relation\HasMany
+    public function teams(): Relation\BelongsToMany
     {
-        return $this->hasMany(Team::class);
+        return $this->belongsToMany(Team::class, 'members');
     }
 }
