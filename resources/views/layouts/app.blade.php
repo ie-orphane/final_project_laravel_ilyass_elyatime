@@ -25,42 +25,14 @@
         <main class="w-full flex flex-col" x-data="{ open: false }">
             <div
                 class="flex justify-between bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 w-full py-4 px-6">
-                <!-- Settings Dropdown -->
-                <div class="hidden sm:-my-px sm:flex sm:ml-auto sm:gap-2">
-                    @switch(request()->path())
-                        @case('tasks')
-                            <button type="button"
-                                onclick="taskStart.value = formatDateTime(new Date());taskEnd.value = formatDateTime(new Date());addTaskModal.show()"
-                                class="flex justify-center items-center px-3 py-1.5 gap-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-bold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
-                                <svg class="dark:text-gray-800 text-gray-200" width="16" height="16" fill="currentColor"
-                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                                    <path
-                                        d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
-                                </svg>
-                                Add Task
-                            </button>
 
-                            @include('tasks.partials.create-modal')
-                        @break
+                <!-- Page Heading -->
+                @if (isset($header))
+                    {{ $header }}
+                @endif
 
-                        @case('teams')
-                            <button type="button"
-                                onclick="teamStart.value = formatDateTime(new Date());teamEnd.value = formatDateTime(new Date());addTeamModal.show()"
-                                class="flex justify-center items-center px-3 py-1.5 gap-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-bold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
-                                <svg class="dark:text-gray-800 text-gray-200" width="16" height="16" fill="currentColor"
-                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                                    <path
-                                        d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
-                                </svg>
-                                Add Team
-                            </button>
-
-                            @include('tasks.partials.create-modal')
-                        @break
-
-                        @default
-                    @endswitch
-
+                <div class="hidden sm:flex {{ isset($header) ? '' : 'sm:ml-auto' }}">
+                    <!-- Settings Dropdown -->
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button
@@ -89,14 +61,14 @@
 
                                 <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
-                                                    this.closest('form').submit();">
+                                                this.closest('form').submit();">
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
                             </form>
                         </x-slot>
                     </x-dropdown>
-                </div>
 
+                </div>
                 <!-- Hamburger -->
                 <div class="flex items-center sm:hidden ml-auto">
                     <button @click="open = ! open"
@@ -121,8 +93,13 @@
                     </x-responsive-nav-link>
                 </div>
                 <div class="pt-2 pb-3 space-y-1">
-                    <x-responsive-nav-link :href="route('tasks')" :active="request()->routeIs('tasks')">
+                    <x-responsive-nav-link :href="route('tasks')" :active="request()->routeIs('tasks') || request()->routeIs('tasks.show')">
                         {{ __('Tasks') }}
+                    </x-responsive-nav-link>
+                </div>
+                <div class="pt-2 pb-3 space-y-1">
+                    <x-responsive-nav-link :href="route('teams')" :active="request()->routeIs('teams') || request()->routeIs('teams.show')">
+                        {{ __('Teams') }}
                     </x-responsive-nav-link>
                 </div>
 

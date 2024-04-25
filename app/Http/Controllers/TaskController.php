@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -12,7 +14,13 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return view('tasks.index');
+        $data = [
+            'id' => auth()->id(),
+            'type' => 'User',
+            'heading' => 'Personal',
+            'model' => auth()->user()
+        ];
+        return view('tasks.index', compact('data'));
     }
 
     /**
@@ -26,8 +34,13 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
+        $model = [
+        "User" => User::class,
+        "Team" => Team::class,
+        ][$request->input('type')]::find($id);
+
         $request->validate([
             "title" => "required|string",
             "description" => "required|string",
@@ -36,8 +49,7 @@ class TaskController extends Controller
             "end" => "required",
         ]);
 
-        Task::create([
-            'user_id' => $request->user()->id,
+        $model->tasks()->create([
             "title" => $request->title,
             "description" => $request->description,
             "priority" => $request->priority,
@@ -51,9 +63,15 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show(Team $team)
     {
-        //
+        $data = [
+            'id' => $team->id,
+            'type' => 'Team',
+            'heading' => $team->name,
+            'model' => $team
+        ];
+        return view('tasks.index', compact('data'));
     }
 
     /**

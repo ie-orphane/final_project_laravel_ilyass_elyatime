@@ -25,7 +25,7 @@
                     <x-input-error :messages="$errors->get('description')" class="mt-2" />
                 </div>
 
-                <div class="mt-6 flex gap-4">
+                <div class="mt-6 flex flex-col sm:flex-row gap-4">
                     <!-- Start -->
                     <div>
                         <x-input-label for="updateTaskStart" :value="__('Start')" />

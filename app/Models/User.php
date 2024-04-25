@@ -4,9 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations as Relation;
 
 class User extends Authenticatable
 {
@@ -48,8 +48,13 @@ class User extends Authenticatable
         ];
     }
 
-    public function tasks($status)
+    public function tasks(): Relation\MorphMany
     {
-        return $this->hasMany(Task::class)->where('status', $status)->get();
+        return $this->morphMany(Task::class, 'taskable');
+    }
+
+    public function teams(): Relation\HasMany
+    {
+        return $this->hasMany(Team::class);
     }
 }
