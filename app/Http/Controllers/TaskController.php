@@ -117,7 +117,7 @@ class TaskController extends Controller
         //
     }
 
-    public function all(Request $request) {
+    public function all(Request $request, string $id = null) {
         $backgroundColors = [
             'to do' => '#ef4444',
             'in progress' => '#d97706',
@@ -125,7 +125,8 @@ class TaskController extends Controller
         ];
 
         $tasks = [];
-        foreach ($request->user()->tasks as $task) {
+        $team = Team::find($id);
+        foreach ($team ? $team->tasks : $request->user()->tasks as $task) {
             $tasks[] = [
                 ...$task->toArray(),
                 "backgroundColor" => $backgroundColors[$task->status],

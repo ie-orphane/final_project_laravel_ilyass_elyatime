@@ -22,7 +22,7 @@ Route::middleware(['auth', 'verified', 'double-auth'])->group(function () {
 
     Route::name("tasks")->group(function () {
         Route::get('/tasks', [TaskController::class, 'index']);
-        Route::get('/tasks/all', [TaskController::class, 'all'])->name(".all");
+        Route::get('/tasks/all/{id?}', [TaskController::class, 'all'])->name(".all");
         Route::get('/tasks/{team}', [TaskController::class, 'show'])->name(".show");
         Route::post('/tasks/{id}', [TaskController::class, 'store'])->name(".store");
         Route::put('/tasks/{id?}', [TaskController::class, 'update'])->name(".update");
