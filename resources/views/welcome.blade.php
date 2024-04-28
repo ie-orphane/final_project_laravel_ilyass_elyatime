@@ -59,7 +59,7 @@
                 </header>
 
                 <main class="mt-6">
-                    <h1 class="text-balance text-center text-9xl font-extrabold uppercase">your every<span
+                    <h1 class="text-balance text-center text-6xl sm:text-8xl md:text-9xl font-extrabold uppercase">your every<span
                             class="text-gold selection:text-black/75">day planner</span><br>buddy
                     </h1>
                 </main>
